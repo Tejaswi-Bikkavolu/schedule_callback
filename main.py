@@ -27,13 +27,28 @@ async def send_whatsapp(data: dict):
     }
 
 
+callbacks = []
+
+
 @app.post("/webhook/schedule-callback")
 async def schedule_callback(data: dict):
 
-    print("Callback requested:", data)
+    callback_time = data.get("callback_time")
+    phone_number = data.get("phone_number")
+    reason = data.get("reason")
+
+    callback = {
+        "callback_time": callback_time,
+        "phone_number": phone_number,
+        "reason": reason
+    }
+
+    callbacks.append(callback)
+
+    print("CALLBACK BOOKED:", callback)
 
     return {
         "success": True,
-        "message": "Callback scheduled",
-        "callback_data": data
+        "message": "Callback booked successfully",
+        "callback": callback
     }
